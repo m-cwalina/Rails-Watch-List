@@ -1,10 +1,13 @@
 class BookmarksController < ApplicationController
   def new
+    @list = List.find(params[:list_id])
     @bookmark = Bookmark.new
   end
 
   def create
     @bookmark = Bookmark.new(valid_params)
+    @list = List.find(params[:list_id])
+    @bookmark.list = @list
     if @bookmark.save
       redirect_to @list
     else
@@ -20,6 +23,6 @@ class BookmarksController < ApplicationController
   private
 
   def valid_params
-    params.require(:bookmark).permit(:comment)
+    params.require(:bookmark).permit(:comment, :movie_id)
   end
 end
